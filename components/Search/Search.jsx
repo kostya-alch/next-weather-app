@@ -24,6 +24,7 @@ const Search = () => {
                         slug: `${city.name.toLowerCase().replace(/ /g, "-")}-${city.id}`
                     }
                     matchingCities.push(cityData);
+                    continue
                 }
             }
         }
@@ -31,21 +32,27 @@ const Search = () => {
     }
     return (
         <div className="search">
-            <input type="text" value={query} onChange={searchHandler} />
+            <input
+                type="text"
+                value={query}
+                onChange={searchHandler}
+            />
 
             {query.length > 3 && (
                 <ul>
                     {results.length > 0 ? (
-                        results.map(city => {
-                            <li key={city.slug}>
-                                <Link href={`/location/${city.slog}`}>
-                                    <a>
-                                        {city.name}
-                                        {city.state ? `, ${city.state}` : ""}
-                                        <span>({city.country})</span>
-                                    </a>
-                                </Link>
-                            </li>
+                        results.map((city) => {
+                            return (
+                                <li key={city.slug}>
+                                    <Link href={`/location/${city.slug}`}>
+                                        <a>
+                                            {city.name}
+                                            {city.state ? `, ${city.state}` : ""}{" "}
+                                            <span>({city.country})</span>
+                                        </a>
+                                    </Link>
+                                </li>
+                            );
                         })
                     ) : (
                         <li className="search__no-results">No results found</li>
