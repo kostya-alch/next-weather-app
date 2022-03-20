@@ -1,4 +1,5 @@
 import Head from "next/head"
+import FamousPlaces from "../components/FamousPlaces/FamousPlaces"
 import Search from "../components/Search/Search"
 
 
@@ -12,6 +13,7 @@ const index = () => {
             <div className="home">
                 <div className="container">
                     <Search placeholder='Введите город для прогноза погоды..' />
+                    <FamousPlaces />
                 </div>
             </div>
         </>
