@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import React from 'react'
+import TodayWeather from '../../components/Search/TodayWeather/TodayWeather';
 import cities from '../../lib/city.list.json'
 
 
@@ -72,6 +73,11 @@ const City = ({ hourlyWeather, currentWeather, dailyWeather, city }) => {
             <Head>
                 <title>{city.name} - World Weather</title>
             </Head>
+            <div className="page__wrapper">
+                <div className="container">
+                    <TodayWeather city={city} weather={dailyWeather[0]} />
+                </div>
+            </div>
         </>
     )
 }
