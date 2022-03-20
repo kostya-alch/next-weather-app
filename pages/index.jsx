@@ -11,7 +11,7 @@ const index = () => {
 
             <div className="home">
                 <div className="container">
-                    <Search />
+                    <Search placeholder='Введите город для прогноза погоды..' />
                 </div>
             </div>
         </>

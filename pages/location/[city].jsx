@@ -5,7 +5,7 @@ import HourlyWeather from '../../components/HourlyWeather/HourlyWeather';
 import TodayWeather from '../../components/TodayWeather/TodayWeather';
 import WeaklyWeather from '../../components/WeaklyWeather/WeaklyWeather';
 import cities from '../../lib/city.list.json'
-
+import Search from '../../components/Search/Search'
 
 export async function getServerSideProps(context) {
     const city = getCity(context.params.city);
@@ -73,6 +73,7 @@ const City = ({ hourlyWeather, currentWeather, dailyWeather, city, timezone }) =
             </Head>
             <div className="page__wrapper">
                 <div className="container">
+                    <Search placeholder='Введите другой город для поиска..' />
                     <TodayWeather
                         city={city}
                         weather={dailyWeather[0]}

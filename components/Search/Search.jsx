@@ -1,10 +1,21 @@
 import Link from 'next/link'
+import Router from 'next/router'
 import React from 'react'
 import cities from '../../lib/city.list.json'
 
-const Search = () => {
+
+const Search = ({ placeholder }) => {
     const [query, setQuery] = React.useState('')
     const [results, setResults] = React.useState([])
+
+    React.useEffect(() => {
+        const clearQuery = () => setQuery('');
+        Router.events.on('routeChangeComplete', clearQuery);
+        
+        return () => {
+            Router.events.off('routeChangeComplete', clearQuery);
+        }
+    }, [])
 
     const searchHandler = (event) => {
         const { value } = event.target
@@ -36,7 +47,7 @@ const Search = () => {
                 type="text"
                 value={query}
                 onChange={searchHandler}
-                placeholder='Enter the city..'
+                placeholder={placeholder ? placeholder : "Введите город для прогноза погоды.."}
             />
 
             {query.length > 3 && (
