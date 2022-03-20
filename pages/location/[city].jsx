@@ -31,13 +31,14 @@ export async function getServerSideProps(context) {
         }
 
         const hourlyWeather = getHourlyWeather(data.hourly, data.timezone);
+        const weaklyWeather = data.daily;
         return {
             props: {
                 city,
-                currentWeather: data.current,
-                dailyWeather: data.daily,
                 timezone: data.timezone,
+                currentWeather: data.current,
                 hourlyWeather,
+                weaklyWeather,
             }
         }
     } catch (error) {
@@ -70,7 +71,7 @@ const getHourlyWeather = (hourlyData, timezone) => {
     return todaysData;
 
 }
-const City = ({ hourlyWeather, currentWeather, dailyWeather, city, timezone }) => {
+const City = ({ hourlyWeather, weaklyWeather, dailyWeather, city, timezone }) => {
     return (
         <>
             <Head>
@@ -84,13 +85,13 @@ const City = ({ hourlyWeather, currentWeather, dailyWeather, city, timezone }) =
                     <Search placeholder='Введите другой город для поиска..' />
                     <TodayWeather
                         city={city}
-                        weather={dailyWeather[0]}
+                        weather={weaklyWeather[0]}
                         timezone={timezone} />
                     <HourlyWeather
                         hourlyWeather={hourlyWeather}
                         timezone={timezone} />
                     <WeaklyWeather
-                        weaklyWeather={dailyWeather}
+                        weaklyWeather={weaklyWeather}
                         timezone={timezone} />
                 </div>
             </div>
