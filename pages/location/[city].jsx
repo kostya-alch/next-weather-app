@@ -10,34 +10,38 @@ import Search from '../../components/Search/Search'
 
 
 export async function getServerSideProps(context) {
-    const city = getCity(context.params.city);
+    try {
+        const city = getCity(context.params.city);
 
-    if (!city) {
-        return {
-            notFound: true,
-        };
-    }
-    const res = await fetch(
-        `https://api.openweathermap.org/data/2.5/onecall?lat=${city.coord.lat}&lon=${city.coord.lon}&appid=${process.env.API_KEY}&exclude=minutely&units=metric`
-    );
-
-    const data = await res.json();
-
-    if (!data) {
-        return {
-            notFound: true,
-        };
-    }
-
-    const hourlyWeather = getHourlyWeather(data.hourly, data.timezone);
-    return {
-        props: {
-            city,
-            currentWeather: data.current,
-            dailyWeather: data.daily,
-            timezone: data.timezone,
-            hourlyWeather,
+        if (!city) {
+            return {
+                notFound: true,
+            };
         }
+        const res = await fetch(
+            `https://api.openweathermap.org/data/2.5/onecall?lat=${city.coord.lat}&lon=${city.coord.lon}&appid=${process.env.API_KEY}&exclude=minutely&units=metric`
+        );
+
+        const data = await res.json();
+
+        if (!data) {
+            return {
+                notFound: true,
+            };
+        }
+
+        const hourlyWeather = getHourlyWeather(data.hourly, data.timezone);
+        return {
+            props: {
+                city,
+                currentWeather: data.current,
+                dailyWeather: data.daily,
+                timezone: data.timezone,
+                hourlyWeather,
+            }
+        }
+    } catch (error) {
+        console.log(error);
     }
 }
 
