@@ -1,5 +1,7 @@
+import Head from 'next/head';
 import React from 'react'
 import cities from '../../lib/city.list.json'
+
 
 export async function getServerSideProps(context) {
     const city = getCity(context.params.city);
@@ -21,12 +23,14 @@ export async function getServerSideProps(context) {
             notFound: true,
         };
     }
-    console.log(data);
-    const slug = context.params.city;
+
+    const hourlyWeather = getHourlyWeather(data.hourly);
     return {
         props: {
-            slug,
-            data
+            city,
+            currentWeather: data.current,
+            dailyWeather: data.daily,
+            hourlyWeather,
         }
     }
 }
@@ -47,12 +51,27 @@ const getCity = param => {
         return null;
     }
 }
-const City = ({ slug, data }) => {
-    console.log(data);
+
+const getHourlyWeather = (hourlyData) => {
+    const current = new Date();
+    current.setHours(current.getHours(), 0, 0, 0);
+    const tomorrow = new Date(current);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0);
+
+    const currentTimeStamp = Math.floor(current.getTime() / 1000);
+    const tomorrowTimeStamp = Math.floor(tomorrow.getTime() / 1000);
+
+    const todaysData = hourlyData.filter(data => data.dt < tomorrowTimeStamp);
+    return todaysData;
+
+}
+const City = ({ hourlyWeather, currentWeather, dailyWeather, city }) => {
     return (
         <>
-            <h1>City</h1>
-            <h2>{slug}</h2>
+            <Head>
+                <title>{city.name} - World Weather</title>
+            </Head>
         </>
     )
 }
