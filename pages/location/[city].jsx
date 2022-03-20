@@ -1,11 +1,13 @@
 import moment from 'moment-timezone';
 import Head from 'next/head';
 import React from 'react'
+import Link from 'next/link'
 import HourlyWeather from '../../components/HourlyWeather/HourlyWeather';
 import TodayWeather from '../../components/TodayWeather/TodayWeather';
 import WeaklyWeather from '../../components/WeaklyWeather/WeaklyWeather';
 import cities from '../../lib/city.list.json'
 import Search from '../../components/Search/Search'
+
 
 export async function getServerSideProps(context) {
     const city = getCity(context.params.city);
@@ -15,7 +17,6 @@ export async function getServerSideProps(context) {
             notFound: true,
         };
     }
-
     const res = await fetch(
         `https://api.openweathermap.org/data/2.5/onecall?lat=${city.coord.lat}&lon=${city.coord.lon}&appid=${process.env.API_KEY}&exclude=minutely&units=metric`
     );
@@ -71,8 +72,11 @@ const City = ({ hourlyWeather, currentWeather, dailyWeather, city, timezone }) =
             <Head>
                 <title>{city.name} - World Weather</title>
             </Head>
-            <div className="page__wrapper">
+            <div className="page-wrapper">
                 <div className="container">
+                    <Link href='/'>
+                        <a className="back-link">&larr; Домой</a>
+                    </Link>
                     <Search placeholder='Введите другой город для поиска..' />
                     <TodayWeather
                         city={city}
