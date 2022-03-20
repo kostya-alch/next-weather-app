@@ -3,6 +3,7 @@ import Head from 'next/head';
 import React from 'react'
 import HourlyWeather from '../../components/HourlyWeather/HourlyWeather';
 import TodayWeather from '../../components/TodayWeather/TodayWeather';
+import WeaklyWeather from '../../components/WeaklyWeather/WeaklyWeather';
 import cities from '../../lib/city.list.json'
 
 
@@ -78,6 +79,9 @@ const City = ({ hourlyWeather, currentWeather, dailyWeather, city, timezone }) =
                         timezone={timezone} />
                     <HourlyWeather
                         hourlyWeather={hourlyWeather}
+                        timezone={timezone} />
+                    <WeaklyWeather
+                        weaklyWeather={dailyWeather}
                         timezone={timezone} />
                 </div>
             </div>

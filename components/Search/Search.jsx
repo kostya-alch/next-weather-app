@@ -36,6 +36,7 @@ const Search = () => {
                 type="text"
                 value={query}
                 onChange={searchHandler}
+                placeholder='Enter the city..'
             />
 
             {query.length > 3 && (
