@@ -1,7 +1,8 @@
 import moment from 'moment-timezone';
 import Head from 'next/head';
 import React from 'react'
-import TodayWeather from '../../components/Search/TodayWeather/TodayWeather';
+import HourlyWeather from '../../components/HourlyWeather/HourlyWeather';
+import TodayWeather from '../../components/TodayWeather/TodayWeather';
 import cities from '../../lib/city.list.json'
 
 
@@ -56,7 +57,7 @@ const getCity = param => {
 }
 
 const getHourlyWeather = (hourlyData, timezone) => {
-    const endOfDay = moment.tz(timezone).endOf('day').valueOf();
+    const endOfDay = moment().tz(timezone).endOf("day").valueOf();
     const eodTimeStamp = Math.floor(endOfDay / 1000);
 
     const todaysData = hourlyData.filter(data => data.dt < eodTimeStamp);
@@ -74,6 +75,9 @@ const City = ({ hourlyWeather, currentWeather, dailyWeather, city, timezone }) =
                     <TodayWeather
                         city={city}
                         weather={dailyWeather[0]}
+                        timezone={timezone} />
+                    <HourlyWeather
+                        hourlyWeather={hourlyWeather}
                         timezone={timezone} />
                 </div>
             </div>

@@ -20,12 +20,12 @@ const TodayWeather = ({ city, weather, timezone }) => {
                     </h2>
                     <div className="today__sun-times">
                         <div>
-                            <span>Sunrize</span>
-                            <span>{moment.unix(weather.sunrise).tz(timezone).format("LT")}</span>
+                            <span>Восход</span>
+                            <span>{moment.unix(weather.sunrise).tz(timezone).format("HH:mm")}</span>
                         </div>
                         <div>
-                            <span>Sunset</span>
-                            <span>{moment.unix(weather.sunset).tz(timezone).format("LT")}</span>
+                            <span>Закат</span>
+                            <span>{moment.unix(weather.sunset).tz(timezone).format("HH:mm")}</span>
                         </div>
                     </div>
                 </div>
