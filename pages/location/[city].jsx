@@ -10,39 +10,38 @@ import Search from '../../components/Search/Search'
 
 
 export async function getServerSideProps(context) {
-    try {
-        const city = getCity(context.params.city);
 
-        if (!city) {
-            return {
-                notFound: true,
-            };
-        }
-        const res = await fetch(
-            `https://api.openweathermap.org/data/2.5/onecall?lat=${city.coord.lat}&lon=${city.coord.lon}&appid=${process.env.API_KEY}&exclude=minutely&units=metric`
-        );
+    const city = getCity(context.params.city);
 
-        const data = await res.json();
-
-        if (!data) {
-            return {
-                notFound: true,
-            };
-        }
-
-        const hourlyWeather = getHourlyWeather(data.hourly, data.timezone);
-        const weaklyWeather = data.daily;
+    if (!city) {
         return {
-            props: {
-                city,
-                timezone: data.timezone,
-                currentWeather: data.current,
-                hourlyWeather,
-                weaklyWeather,
-            }
+            notFound: true,
+        };
+    }
+    const res = await fetch(
+        `https://api.openweathermap.org/data/2.5/onecall?lat=${city.coord.lat}&lon=${city.coord.lon}&appid=${process.env.API_KEY}&exclude=minutely&units=metric`
+    );
+
+    const data = await res.json();
+
+    if (!data) {
+        return {
+            notFound: true,
+        };
+    }
+
+    const hourlyWeather = getHourlyWeather(data.hourly, data.timezone);
+
+    const weaklyWeather = data.daily;
+
+    return {
+        props: {
+            city,
+            timezone: data.timezone,
+            currentWeather: data.current,
+            hourlyWeather,
+            weaklyWeather,
         }
-    } catch (error) {
-        console.log(error);
     }
 }
 
@@ -55,7 +54,9 @@ const getCity = param => {
     if (!id) {
         return null;
     }
+
     const city = cities.find(city => city.id.toString() === id)
+
     if (city) {
         return city
     } else {
@@ -71,12 +72,14 @@ const getHourlyWeather = (hourlyData, timezone) => {
     return todaysData;
 
 }
+
 const City = ({ hourlyWeather, weaklyWeather, dailyWeather, city, timezone }) => {
     return (
         <>
             <Head>
                 <title>{city.name} - World Weather</title>
             </Head>
+
             <div className="page-wrapper">
                 <div className="container">
                     <Link href='/'>

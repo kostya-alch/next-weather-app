@@ -11,7 +11,7 @@ const Search = ({ placeholder }) => {
     React.useEffect(() => {
         const clearQuery = () => setQuery('');
         Router.events.on('routeChangeComplete', clearQuery);
-        
+
         return () => {
             Router.events.off('routeChangeComplete', clearQuery);
         }
@@ -29,6 +29,7 @@ const Search = ({ placeholder }) => {
                     break;
                 }
                 const match = city.name.toLowerCase().startsWith(value.toLowerCase());
+
                 if (match) {
                     const cityData = {
                         ...city,
